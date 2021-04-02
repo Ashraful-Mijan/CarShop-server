@@ -1,9 +1,9 @@
 const express = require('express')
+require('dotenv').config()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-// const { ObjectId } = require('mongodb');
 
 // const userpass = 'd9UxSRHdEwmC5kk'
 // const userName = 'CarshopUser'
@@ -12,9 +12,9 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-const port = 9000
+const port = process.env.PORT || 9000;
 
-const uri = "mongodb+srv://CarshopUser:d9UxSRHdEwmC5kk@cluster0.vjryr.mongodb.net/carshopdb?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vjryr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 
 
@@ -36,7 +36,6 @@ client.connect(err => {
     app.get('/product', (req, res) => {
         collection.find({})
             .toArray((err, items) => {
-                // console.log(items)
                 res.send(items)
             })
     })
